@@ -2,10 +2,10 @@ import Button from "react-bootstrap/Button";
 
 import React from "react";
 
-const ShowButton = () => {
+const ShowButton = ({hideShowFunc, addProduct}) => {
   return (
     <div className="d-flex justify-content-center">
-      <Button> Show / Hide </Button>
+      <Button onClick={hideShowFunc}> {addProduct ? "Show Add Product" : "Hide Add Product"} </Button>
     </div>
   );
 };

@@ -1,59 +1,59 @@
-import { useState, useEffect } from "react";
-import axios from "axios"
+// import { useState, useEffect } from "react";
+// import axios from "axios"
 import ProductCard from "./ProductCard";
 
-const CardTotal = () => {
-  const [newData, setNewData] = useState([]);
-  const BASE_URL = "https://63fa064c473885d837d70e48.mockapi.io/products/";
+const CardTotal = ({newData, increase, decrease, deleteFunc}) => {
+  // const [newData, setNewData] = useState([]);
+  // const BASE_URL = "https://63fa064c473885d837d70e48.mockapi.io/products/";
 
-  const getData =  async() => {
-    try {
-      await axios(BASE_URL)
-        .then(res => {
-          const data = res.data
-          setNewData(data)
-        })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const getData =  async() => {
+  //   try {
+  //     await axios(BASE_URL)
+  //       .then(res => {
+  //         const data = res.data
+  //         setNewData(data)
+  //       })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  useEffect(() =>{
-    getData()
-  },[])
+  // useEffect(() =>{
+  //   getData()
+  // },[])
 
-  const deleteFunc = async(productId)=>{
-    try {
-      await axios.delete(`${BASE_URL}/${productId}`)
-    } catch (error) {
-      console.log(error)
-    }
-    getData()
-  }
+  // const deleteFunc = async(productId)=>{
+  //   try {
+  //     await axios.delete(`${BASE_URL}/${productId}`)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   getData()
+  // }
 
-  const increase = (productId) => {
-    const updatedData = newData.map((item) => {
-      if (item.id === productId) {
-        const newItem = { ...item, amount: item.amount + 1 };
-        return newItem;
-      }
+  // const increase = (productId) => {
+  //   const updatedData = newData.map((item) => {
+  //     if (item.id === productId) {
+  //       const newItem = { ...item, amount: item.amount + 1 };
+  //       return newItem;
+  //     }
 
-      return item;
-    });
-    setNewData(updatedData);
-  };
+  //     return item;
+  //   });
+  //   setNewData(updatedData);
+  // };
 
-  const decrease = (productId) => {
-    const updatedData = newData.map((item) => {
-      if (item.id === productId && item.amount > 1) {
-        return { ...item, amount: item.amount - 1 };
-      }
-      return item;
-    });
-    setNewData(updatedData);
-  };
+  // const decrease = (productId) => {
+  //   const updatedData = newData.map((item) => {
+  //     if (item.id === productId && item.amount > 1) {
+  //       return { ...item, amount: item.amount - 1 };
+  //     }
+  //     return item;
+  //   });
+  //   setNewData(updatedData);
+  // };
 
-  const subtotal = newData.reduce((total, item) => {
+  const subtotal = newData?.reduce((total, item) => {
     return total + item.price * item.amount;
   }, 0);
 
@@ -72,7 +72,7 @@ const CardTotal = () => {
 
         {newData?.length ? 
         <div>
-          {newData.map((item) => {
+          {newData?.map((item) => {
             return (
               <ProductCard
                 deleteFunc={deleteFunc}

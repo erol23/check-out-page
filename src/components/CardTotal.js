@@ -1,26 +1,15 @@
-import ProductCard from "./ProductCard";
-import data from "../helper/data";
 import { useState } from "react";
+import data from "../helper/data";
+import ProductCard from "./ProductCard";
 
 const CardTotal = () => {
   const [newData, setNewData] = useState(data);
-  const [amount, setAmount] = useState(1);
-  const [newPrice, setNewPrice] = useState(1);
-
-//   const multiply = (productId) => {
-//     const updatedData = newData.map((item) => {
-//       if (item.id === productId) {
-//         return { ...item, newPrice: item.amount * item.price };
-//       }
-//       return item;
-//     });
-//     setNewData(updatedData);
-//   };
 
   const increase = (productId) => {
     const updatedData = newData.map((item) => {
       if (item.id === productId) {
-        return { ...item, amount: item.amount + 1 };
+        const newItem = { ...item, amount: item.amount + 1 };
+        return newItem;
       }
 
       return item;
@@ -38,10 +27,19 @@ const CardTotal = () => {
     setNewData(updatedData);
   };
 
-  const subtotal = data.reduce((total, item) => {
-    return total + item.price * item.amount;
+  const subtotal = newData.reduce((total, item) => {
+    return (total + item.price * item.amount);
   }, 0);
 
+  const tax = (subtotal*0.18).toFixed(2)
+  let currentShipping = 300
+  const shipping = () => {
+    if(subtotal>2000){
+        currentShipping = 0
+        return currentShipping;
+    }
+    return currentShipping;
+  }
   return (
     <div className="d-flex justify-content-center mt-5">
       <div className="row">
@@ -53,10 +51,9 @@ const CardTotal = () => {
           {newData.map((item) => {
             return (
               <ProductCard
-                amount={amount}
+                amount={item.amount}
                 decrease={decrease}
                 increase={increase}
-                newPrice={newPrice}
                 key={item.id}
                 {...item}
               />
@@ -64,19 +61,19 @@ const CardTotal = () => {
           })}
           <div>
             <div className="d-flex justify-content-between">
-              <h3>Subtotal</h3> <h3>${subtotal}</h3>
+              <h3>Subtotal</h3> <h3>${subtotal.toFixed(2)}</h3>
             </div>
             <hr />
             <div className="d-flex justify-content-between">
-              <h3>Tax</h3> <h3>300</h3>
+              <h3>Tax</h3> <h3>${tax}</h3>
             </div>
             <hr />
             <div className="d-flex justify-content-between">
-              <h3>Shipping</h3> <h3>300</h3>
+              <h3>Shipping</h3> <h3>${shipping()}</h3>
             </div>
             <hr />
             <div className="d-flex justify-content-between">
-              <h3>Total</h3> <h3>300</h3>
+              <h3>Total</h3> <h3>{(parseFloat(subtotal)+ parseFloat(tax) + parseInt(shipping())).toFixed(2)}</h3>
             </div>
             <hr />
           </div>

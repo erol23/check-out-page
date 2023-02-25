@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 
 const ProductCard = (props) =>{
 
-    const { image, id, name,price,dampingRate, increase, decrease, amount} = props
+    const { image, id, name,price,dampingRate, increase, decrease, amount, deleteFunc} = props
 
     
     return ( 
@@ -31,7 +31,7 @@ const ProductCard = (props) =>{
         </div>
             
             <div className=' d-flex  mt-3 justify-content-center '> 
-        <Button style={{width:"100%"}} variant='danger' >Remove</Button>
+        <Button style={{width:"100%"}} variant='danger' onClick={()=>deleteFunc(id)}>Remove</Button>
         </div>
       </Card.Body>
       </Col>

@@ -1,9 +1,35 @@
-import { useState } from "react";
-import data from "../helper/data";
+import { useState, useEffect } from "react";
+import axios from "axios"
 import ProductCard from "./ProductCard";
 
 const CardTotal = () => {
-  const [newData, setNewData] = useState(data);
+  const [newData, setNewData] = useState([]);
+  const BASE_URL = "https://63fa064c473885d837d70e48.mockapi.io/products/";
+
+  const getData =  async() => {
+    try {
+      await axios(BASE_URL)
+        .then(res => {
+          const data = res.data
+          setNewData(data)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() =>{
+    getData()
+  },[])
+
+  const deleteFunc = async(productId)=>{
+    try {
+      await axios.delete(`${BASE_URL}/${productId}`)
+    } catch (error) {
+      console.log(error)
+    }
+    getData()
+  }
 
   const increase = (productId) => {
     const updatedData = newData.map((item) => {
@@ -28,7 +54,7 @@ const CardTotal = () => {
   };
 
   const subtotal = newData.reduce((total, item) => {
-    return (total + item.price * item.amount);
+    return total + item.price * item.amount;
   }, 0);
 
   const tax = (subtotal*0.18).toFixed(2)
@@ -43,15 +69,13 @@ const CardTotal = () => {
   return (
     <div className="d-flex justify-content-center mt-5">
       <div className="row">
-        <div>
-          <h2>Card Total</h2>
-        </div>
 
+        {newData?.length ? 
         <div>
           {newData.map((item) => {
             return (
               <ProductCard
-                amount={item.amount}
+                deleteFunc={deleteFunc}
                 decrease={decrease}
                 increase={increase}
                 key={item.id}
@@ -59,7 +83,7 @@ const CardTotal = () => {
               />
             );
           })}
-          <div>
+          <div style={{width:"31rem"}}>
             <div className="d-flex justify-content-between">
               <h3>Subtotal</h3> <h3>${subtotal.toFixed(2)}</h3>
             </div>
@@ -77,7 +101,10 @@ const CardTotal = () => {
             </div>
             <hr />
           </div>
-        </div>
+        </div>:
+        "please add a new product"
+      }
+
       </div>
     </div>
   );

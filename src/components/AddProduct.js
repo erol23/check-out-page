@@ -41,6 +41,7 @@ const AddProduct = ({getData}) => {
             placeholder="Enter product name"
             value = {name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </Form.Group>
 
@@ -51,6 +52,7 @@ const AddProduct = ({getData}) => {
             placeholder="Price"
             value = {price}
             onChange={(e) => setPrice(e.target.value)}
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="product">
@@ -60,6 +62,7 @@ const AddProduct = ({getData}) => {
             placeholder="Quantity"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="product">
@@ -69,6 +72,7 @@ const AddProduct = ({getData}) => {
             placeholder="Image URL"
             value={image}
             onChange={(e) => setImage(e.target.value)}
+            required
           />
         </Form.Group>
 
